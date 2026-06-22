@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/Catalog/">
+    <Project Path="src/Services/Catalog/ElectronicsStore.Catalog.Api/ElectronicsStore.Catalog.Api/ElectronicsStore.Catalog.Api.csproj" />
+    <Project Path="src/Services/Catalog/ElectronicsStore.Catalog.Domain/ElectronicsStore.Catalog.Domain.csproj" />
+    <Project Path="src/Services/Catalog/ElectronicsStore.Catalog.Infrastructure/ElectronicsStore.Catalog.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/Services/" />
+  <Folder Name="/tests/Services/Catalog/">
+    <Project Path="tests/Services/Catalog/ElectronicsStore.Catalog.UnitTests/ElectronicsStore.Catalog.UnitTests.csproj" />
+  </Folder>
+</Solution>
