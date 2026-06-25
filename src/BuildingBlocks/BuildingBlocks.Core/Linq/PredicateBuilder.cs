@@ -2,8 +2,20 @@ using System.Linq.Expressions;
 
 namespace BuildingBlocks.Core.Linq;
 
+/// <summary>
+/// Construtor de predicados para criar expressões LINQ dinamicamente.
+/// Suporta operadores de comparação como ==, !=, >, <, >=, <=, Contains, etc.
+/// </summary>
 public static class PredicateBuilder
 {
+    /// <summary>
+    /// Constrói uma expressão lambda a partir de uma propriedade, operador de comparação e valor.
+    /// </summary>
+    /// <typeparam name="T">Tipo da entidade</typeparam>
+    /// <param name="propertyName">Nome da propriedade (suporta notação de ponto para propriedades aninhadas)</param>
+    /// <param name="comparison">Operador de comparação (==, !=, >, >=, <, <=, Contains, StartsWith, EndsWith, In)</param>
+    /// <param name="value">Valor para comparação</param>
+    /// <returns>Expressão lambda compilada</returns>
     public static Expression<Func<T, bool>> Build<T>(string propertyName, string comparison, string value)
     {
         const string parameterName = "x";
@@ -13,6 +25,9 @@ public static class PredicateBuilder
         return Expression.Lambda<Func<T, bool>>(body, parameter);
     }
 
+    /// <summary>
+    /// Combina duas expressões com operador AND lógico.
+    /// </summary>
     public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> a, Expression<Func<T, bool>> b)
     {
         var p = a.Parameters[0];
@@ -23,6 +38,9 @@ public static class PredicateBuilder
         return Expression.Lambda<Func<T, bool>>(body, p);
     }
 
+    /// <summary>
+    /// Combina duas expressões com operador OR lógico.
+    /// </summary>
     public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> a, Expression<Func<T, bool>> b)
     {
         var p = a.Parameters[0];
@@ -33,6 +51,9 @@ public static class PredicateBuilder
         return Expression.Lambda<Func<T, bool>>(body, p);
     }
 
+    /// <summary>
+    /// Cria uma expressão de comparação baseada no operador especificado.
+    /// </summary>
     private static Expression MakeComparison(Expression left, string comparison, string value)
     {
         return comparison switch
@@ -50,10 +71,13 @@ public static class PredicateBuilder
                 Expression.Constant(value, typeof(string))
             ),
             "In" => MakeList(left, value.Split(',')),
-            _ => throw new NotSupportedException($"Invalid comparison operator '{comparison}'."),
+            _ => throw new NotSupportedException($"Operador de comparação inválido '{comparison}'."),
         };
     }
 
+    /// <summary>
+    /// Cria uma expressão que verifica se um valor está contido em uma lista.
+    /// </summary>
     private static Expression MakeList(Expression left, IEnumerable<string> codes)
     {
         var objValues = codes.Cast<object>().ToList();
@@ -64,11 +88,17 @@ public static class PredicateBuilder
         return body;
     }
 
+    /// <summary>
+    /// Converte uma expressão para string se necessário.
+    /// </summary>
     private static Expression MakeString(Expression source)
     {
         return source.Type == typeof(string) ? source : Expression.Call(source, "ToString", Type.EmptyTypes);
     }
 
+    /// <summary>
+    /// Cria uma expressão binária com conversão de tipo apropriada.
+    /// </summary>
     private static Expression MakeBinary(ExpressionType type, Expression left, string value)
     {
         object typedValue = value;
@@ -94,6 +124,9 @@ public static class PredicateBuilder
         return Expression.MakeBinary(type, left, right);
     }
 
+    /// <summary>
+    /// Visitante para substituir parâmetros em árvores de expressão.
+    /// </summary>
     private class SubstExpressionVisitor : ExpressionVisitor
     {
         public readonly Dictionary<Expression, Expression> Subst = new();
