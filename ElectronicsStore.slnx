@@ -1,10 +1,13 @@
 <Solution>
   <Folder Name="/src/" />
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/BuildingBlocks.Abstractions/BuildingBlocks.Abstractions.csproj" Id="bc9b0e91-ff3c-4016-9fff-83db2bb0a5ed" />
+    <Project Path="src/BuildingBlocks/BuildingBlocks.Core/BuildingBlocks.Core.csproj" />
+  </Folder>
   <Folder Name="/src/Services/" />
   <Folder Name="/src/Services/Catalog/">
     <Project Path="src/Services/Catalog/ElectronicsStore.Catalog.Api/ElectronicsStore.Catalog.Api/ElectronicsStore.Catalog.Api.csproj" />
-    <Project Path="src/Services/Catalog/ElectronicsStore.Catalog.Domain/ElectronicsStore.Catalog.Domain.csproj" />
-    <Project Path="src/Services/Catalog/ElectronicsStore.Catalog.Infrastructure/ElectronicsStore.Catalog.Infrastructure.csproj" />
+    <Project Path="src/Services/Catalog/ElectronicsStore.Catalog/ElectronicsStore.Catalog.csproj" Id="dbd6d3a4-91d7-4d6a-ba40-aeb6eb5eb31c" />
   </Folder>
   <Folder Name="/tests/" />
   <Folder Name="/tests/Services/" />
